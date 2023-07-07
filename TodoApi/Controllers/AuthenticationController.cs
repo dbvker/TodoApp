@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -41,7 +42,7 @@ public class AuthenticationController : ControllerBase
 	{
 		var secretKey = new SymmetricSecurityKey(
 			Encoding.ASCII.GetBytes(
-				_config.GetValue<string>("Authentication:SecretKey")!));
+				_config.GetValue<string>("Authentication:SecretKey")));
 
 		var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
@@ -82,7 +83,7 @@ public class AuthenticationController : ControllerBase
 
 	private bool CompareValues(string? actual, string expected)
 	{
-		if (actual == null)
+		if (actual is not null)
 		{
 			if (actual!.Equals(expected))
 			{
